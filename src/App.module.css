@@ -32,15 +32,14 @@
     background-color: var(--blue-dark);
     color: var(--gray-100);
     border: none;
-
-    transition: background-color 0.1s;
-}
-
-.addTaskContainer button {
     gap: 0.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+
+    transition: background-color 0.1s;
 }
 
 .addTaskContainer button:hover {
@@ -48,15 +47,15 @@
 }
 
 .mainContentContainer {
-    justify-content: center;
-    display: flex;
+    text-align: -webkit-center;
 }
 
-.tarefasStatusContainer {
+.taskStatusContainer {
     display: flex;
     width: 46rem;
     justify-content: space-between;
     margin-top: 4rem;
+    margin-bottom: 1.5rem;
 }
 
 .statusItem {
@@ -72,4 +71,10 @@
     border-radius: 999px;
     color: var(--gray-200);
     font-size: 0.75rem;
+}
+
+.taskListContainer {
+    width: 46rem;
+    border-top: 1px solid var(--gray-400);
+    border-radius: 8px;
 }

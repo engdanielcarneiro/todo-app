@@ -3,7 +3,9 @@ import styles from './App.module.css'
 import './global.css'
 
 import todoLogo from '../src/assets/todo-logo.svg'
+
 import { PlusCircle } from '@phosphor-icons/react'
+import { EmptyList } from './components/EmptyList'
 
 function App() {
 
@@ -19,20 +21,23 @@ function App() {
               <input type="text" placeholder='Adicione uma nova tarefa' />
               <button>
                 Criar
-                <PlusCircle size={'1rem'}/>
+                <PlusCircle size={'1rem'} weight='bold' />
               </button>
             </div>
           </form>
           <div className={styles.mainContentContainer}>
-            <div className={styles.tarefasStatusContainer}>
-              <div className={styles.statusItem} style={{color: 'var(--blue)'}}>
+            <div className={styles.taskStatusContainer}>
+              <div className={styles.statusItem} style={{ color: 'var(--blue)' }}>
                 Tarefas criadas
                 <div className={styles.countContainer}>0</div>
               </div>
-              <div className={styles.statusItem} style={{color: 'var(--purple)'}}>
+              <div className={styles.statusItem} style={{ color: 'var(--purple)' }}>
                 Concluídas
                 <div className={styles.countContainer}>0</div>
               </div>
+            </div>
+            <div className={styles.taskListContainer}>
+              <EmptyList />
             </div>
           </div>
         </main>
