@@ -1,0 +1,75 @@
+.header {
+    background-color: var(--gray-700);
+    height: 12.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addTaskContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: calc(0px - 1.68rem);
+}
+
+.addTaskContainer input {
+    width: 39.875rem;
+    height: 3.375rem;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: var(--gray-500);
+    color: var(--gray-100);
+    border: none;
+}
+
+.addTaskContainer button {
+    cursor: pointer;
+    width: 5.625rem;
+    height: 3.25rem;
+    border-radius: 8px;
+    background-color: var(--blue-dark);
+    color: var(--gray-100);
+    border: none;
+
+    transition: background-color 0.1s;
+}
+
+.addTaskContainer button {
+    gap: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addTaskContainer button:hover {
+    background-color: var(--blue);
+}
+
+.mainContentContainer {
+    justify-content: center;
+    display: flex;
+}
+
+.tarefasStatusContainer {
+    display: flex;
+    width: 46rem;
+    justify-content: space-between;
+    margin-top: 4rem;
+}
+
+.statusItem {
+    gap: 1rem;
+    display: flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.statusItem .countContainer {
+    background-color: var(--gray-400);
+    padding: 0.125rem 0.5rem;
+    border-radius: 999px;
+    color: var(--gray-200);
+    font-size: 0.75rem;
+}
