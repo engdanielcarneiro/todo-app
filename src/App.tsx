@@ -4,10 +4,28 @@ import './global.css'
 
 import todoLogo from '../src/assets/todo-logo.svg'
 
-import { PlusCircle } from '@phosphor-icons/react'
+import { Check, CheckCircle, Circle, PlusCircle, Trash } from '@phosphor-icons/react'
 import { EmptyList } from './components/EmptyList'
 
+import { v4 as uuidv4 } from 'uuid'
+
+import { useState } from 'react'
+
+interface Task {
+  id: string
+  isCompleted: boolean,
+  content: string
+}
+
 function App() {
+
+  const [taskList, setTaskList] = useState<Task[]>([
+    {
+      id: uuidv4(),
+      isCompleted: false,
+      content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.'
+    }
+  ]);
 
   return (
     <>
@@ -33,11 +51,37 @@ function App() {
               </div>
               <div className={styles.statusItem} style={{ color: 'var(--purple)' }}>
                 Concluídas
-                <div className={styles.countContainer}>0</div>
+                <div className={styles.countContainer}>{taskList.length == 0 ? '0' : '1 de 2'}</div>
               </div>
             </div>
             <div className={styles.taskListContainer}>
-              <EmptyList />
+              {taskList.length == 0 ?
+                <EmptyList />
+                :
+                <div className={styles.notEmptyContainer}>
+                  <div className={styles.task}>
+                    <div className={styles.checkboxContainer}>
+                      <div className={`${styles.checkbox} ${styles["checkbox-checked"]}`}>
+                        <Check color={'var(--gray-100)'} size={'0.69rem'} />
+                      </div>
+                    </div>
+                    {taskList[0].content}
+                    <button className={styles.removeButton}>
+                      <Trash size={'1.05rem'} />
+                    </button>
+                  </div>
+                  <div className={styles.task}>
+                    <div className={styles.checkboxContainer}>
+                      <div className={`${styles.checkbox} ${styles["checkbox-unchecked"]}`}>                   </div>
+                    </div>
+                    {taskList[0].content}
+                    <button className={styles.removeButton}>
+                      <Trash size={'1.05rem'} />
+                    </button>
+                  </div>
+
+                </div>
+              }
             </div>
           </div>
         </main>
