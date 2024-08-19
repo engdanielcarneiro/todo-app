@@ -4,12 +4,13 @@ import './global.css'
 
 import todoLogo from '../src/assets/todo-logo.svg'
 
-import { Check, CheckCircle, Circle, PlusCircle, Trash } from '@phosphor-icons/react'
+import { PlusCircle } from '@phosphor-icons/react'
 import { EmptyList } from './components/EmptyList'
 
 import { v4 as uuidv4 } from 'uuid'
 
-import { useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { Task } from './components/Task'
 
 interface Task {
   id: string
@@ -24,8 +25,50 @@ function App() {
       id: uuidv4(),
       isCompleted: false,
       content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.'
+    },
+    {
+      id: uuidv4(),
+      isCompleted: true,
+      content: '2 Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.'
+    },
+    {
+      id: uuidv4(),
+      isCompleted: false,
+      content: '3 Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.'
     }
-  ]);
+  ])
+  const [newTaskContent, setNewTaskContent] = useState('')
+  const [completedTasksCount, setCompletedTasksCount] = useState(0)
+
+  function handleNewTextContentChange(event: ChangeEvent<HTMLInputElement>) {
+    setNewTaskContent(event.target.value)
+  }
+
+  function handleCreateTask(event: FormEvent) {
+    event.preventDefault()
+
+    const newTask: Task = {
+      id: uuidv4(),
+      isCompleted: false,
+      content: newTaskContent
+    }
+
+    createNewTask(newTask);
+  }
+
+  function createNewTask(newTask: Task) {
+    setTaskList([...taskList, newTask])
+    setNewTaskContent('');
+  }
+
+  function handleDeleteTask(taskToDelete: Task) {
+    const updatedTaskList = taskList.filter((task) => task.id !== taskToDelete.id)
+    setTaskList(updatedTaskList)
+  }
+
+  useEffect(() => {
+    setCompletedTasksCount(taskList.filter((task) => task.isCompleted == true).length);
+  }, [taskList])
 
   return (
     <>
@@ -34,10 +77,10 @@ function App() {
       </header>
       <div>
         <main>
-          <form>
+          <form onSubmit={handleCreateTask}>
             <div className={styles.addTaskContainer}>
-              <input type="text" placeholder='Adicione uma nova tarefa' />
-              <button>
+              <input type="text" placeholder='Adicione uma nova tarefa' value={newTaskContent} onChange={handleNewTextContentChange} />
+              <button type='submit'>
                 Criar
                 <PlusCircle size={'1rem'} weight='bold' />
               </button>
@@ -51,7 +94,7 @@ function App() {
               </div>
               <div className={styles.statusItem} style={{ color: 'var(--purple)' }}>
                 Concluídas
-                <div className={styles.countContainer}>{taskList.length == 0 ? '0' : '1 de 2'}</div>
+                <div className={styles.countContainer}>{taskList.length == 0 ? '0' : `${completedTasksCount} de ${taskList.length}`}</div>
               </div>
             </div>
             <div className={styles.taskListContainer}>
@@ -59,27 +102,10 @@ function App() {
                 <EmptyList />
                 :
                 <div className={styles.notEmptyContainer}>
-                  <div className={styles.task}>
-                    <div className={styles.checkboxContainer}>
-                      <div className={`${styles.checkbox} ${styles["checkbox-checked"]}`}>
-                        <Check color={'var(--gray-100)'} size={'0.69rem'} />
-                      </div>
-                    </div>
-                    {taskList[0].content}
-                    <button className={styles.removeButton}>
-                      <Trash size={'1.05rem'} />
-                    </button>
-                  </div>
-                  <div className={styles.task}>
-                    <div className={styles.checkboxContainer}>
-                      <div className={`${styles.checkbox} ${styles["checkbox-unchecked"]}`}>                   </div>
-                    </div>
-                    {taskList[0].content}
-                    <button className={styles.removeButton}>
-                      <Trash size={'1.05rem'} />
-                    </button>
-                  </div>
-
+                  {taskList.map((task) => {
+                    return (
+                      <Task onDeleteTask={handleDeleteTask} key={task.id} task={task} />)
+                  })}
                 </div>
               }
             </div>
@@ -91,3 +117,4 @@ function App() {
 }
 
 export default App
+
