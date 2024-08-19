@@ -10,9 +10,10 @@ interface Task {
 interface TaskProps {
     task: Task,
     onDeleteTask: (task: Task) => void
+    onToggleCompleteTask: (task: Task) => void
 }
 
-export function Task({ task, onDeleteTask }: TaskProps) {
+export function Task({ task, onDeleteTask, onToggleCompleteTask }: TaskProps) {
 
     const checkboxCheckedClassname = task.isCompleted ? styles['checkbox-checked'] : styles['checkbox-unchecked'];
 
@@ -21,7 +22,7 @@ export function Task({ task, onDeleteTask }: TaskProps) {
             <div className={styles.task}>
                 <span className={styles.flexWrapper}>
                     <div className={styles.checkboxContainer}>
-                        <div className={`${styles.checkbox} ${checkboxCheckedClassname}`}>
+                        <div onClick={() => onToggleCompleteTask(task)} className={`${styles.checkbox} ${checkboxCheckedClassname}`}>
                             {task.isCompleted ? <Check color={'var(--gray-100)'} size={'0.69rem'} /> : null}
                         </div>
                     </div>

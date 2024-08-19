@@ -24,6 +24,9 @@
     border: none;
 }
 
+.addTaskContainer input:focus {
+    border: 1px solid var(--purple-dark);
+}
 .addTaskContainer button {
     cursor: pointer;
     width: 5.625rem;
