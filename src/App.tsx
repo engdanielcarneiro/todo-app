@@ -2,14 +2,20 @@ import styles from "./App.module.css"
 
 import "./global.css"
 
-import todoLogo from "../src/assets/todo-logo.svg"
 
 import { PlusCircle } from "@phosphor-icons/react"
 import { EmptyList } from "./components/EmptyList"
 
 import { v4 as uuidv4 } from "uuid"
 
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import {
+  ChangeEvent,
+  createContext,
+  FormEvent,
+  useEffect,
+  useState,
+} from "react"
+import { Header } from "./components/Header"
 import { Task } from "./components/Task"
 
 interface Task {
@@ -18,7 +24,17 @@ interface Task {
   content: string
 }
 
+interface ThemeContextType {
+  theme: string
+  setTheme: React.Dispatch<React.SetStateAction<string>>
+}
+
+export const ThemeContext = createContext<ThemeContextType | undefined>(
+  undefined
+)
+
 function App() {
+  const [theme, setTheme] = useState("dark")
   const [taskList, setTaskList] = useState<Task[]>([])
   const [newTaskContent, setNewTaskContent] = useState("")
   const [completedTasksCount, setCompletedTasksCount] = useState(0)
@@ -69,70 +85,71 @@ function App() {
   }, [taskList])
 
   return (
-    <>
-      <header className={styles.header}>
-        <img src={todoLogo} alt="Logotipo do aplicativo todo" />
-      </header>
-      <div>
-        <main>
-          <form onSubmit={handleCreateTask}>
-            <div className={styles.addTaskContainer}>
-              <input
-                type="text"
-                placeholder="Adicione uma nova tarefa"
-                value={newTaskContent}
-                onChange={handleNewTextContentChange}
-                required
-              />
-              <button type="submit">
-                Criar
-                <PlusCircle size={"1rem"} weight="bold" />
-              </button>
-            </div>
-          </form>
-          <div className={styles.mainContentContainer}>
-            <div className={styles.taskStatusContainer}>
-              <div
-                className={styles.statusItem}
-                style={{ color: "var(--blue)" }}
-              >
-                Tarefas criadas
-                <div className={styles.countContainer}>{taskList.length}</div>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <div className={`${styles.page} ${styles[theme]}`}>
+        <Header />
+        <div>
+          <main>
+            <form onSubmit={handleCreateTask}>
+              <div className={styles.addTaskContainer}>
+                <input
+                  type="text"
+                  placeholder="Adicione uma nova tarefa"
+                  value={newTaskContent}
+                  onChange={handleNewTextContentChange}
+                  required
+                  className={styles[theme]}
+                />
+                <button type="submit">
+                  Criar
+                  <PlusCircle size={"1rem"} weight="bold" />
+                </button>
               </div>
-              <div
-                className={styles.statusItem}
-                style={{ color: "var(--purple)" }}
-              >
-                Concluídas
-                <div className={styles.countContainer}>
-                  {taskList.length == 0
-                    ? "0"
-                    : `${completedTasksCount} de ${taskList.length}`}
+            </form>
+            <div className={styles.mainContentContainer}>
+              <div className={styles.taskStatusContainer}>
+                <div
+                  className={styles.statusItem}
+                  style={{ color: "var(--blue)" }}
+                >
+                  Tarefas criadas
+                  <div className={styles.countContainer}>{taskList.length}</div>
+                </div>
+                <div
+                  className={styles.statusItem}
+                  style={{ color: "var(--purple)" }}
+                >
+                  Concluídas
+                  <div className={styles.countContainer}>
+                    {taskList.length == 0
+                      ? "0"
+                      : `${completedTasksCount} de ${taskList.length}`}
+                  </div>
                 </div>
               </div>
+              <div className={`${styles.taskListContainer} ${styles[theme]}`}>
+                {taskList.length == 0 ? (
+                  <EmptyList />
+                ) : (
+                  <div className={styles.notEmptyContainer}>
+                    {taskList.map((task) => {
+                      return (
+                        <Task
+                          onToggleCompleteTask={handleToggleCompleteTask}
+                          onDeleteTask={handleDeleteTask}
+                          key={task.id}
+                          task={task}
+                        />
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
-            <div className={styles.taskListContainer}>
-              {taskList.length == 0 ? (
-                <EmptyList />
-              ) : (
-                <div className={styles.notEmptyContainer}>
-                  {taskList.map((task) => {
-                    return (
-                      <Task
-                        onToggleCompleteTask={handleToggleCompleteTask}
-                        onDeleteTask={handleDeleteTask}
-                        key={task.id}
-                        task={task}
-                      />
-                    )
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
-    </>
+    </ThemeContext.Provider>
   )
 }
 

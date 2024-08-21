@@ -1,9 +1,15 @@
-.header {
-    background-color: var(--gray-700);
-    height: 12.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.page {
+    height: 100vh;
+
+    transition: background-color 0.3s;
+}
+
+.page.light {
+    background-color: var(--gray-100);
+}
+
+.page.dark {
+    background-color: var(--gray-600);
 }
 
 .addTaskContainer {
@@ -12,6 +18,7 @@
     align-items: center;
     gap: 0.5rem;
     margin-top: calc(0px - 1.68rem);
+    transition: background-color 0.3s;
 }
 
 .addTaskContainer input {
@@ -19,14 +26,27 @@
     height: 3.375rem;
     border-radius: 8px;
     padding: 1rem;
+    border: none;
+    }
+    
+    .addTaskContainer input.dark {
     background-color: var(--gray-500);
     color: var(--gray-100);
-    border: none;
 }
 
-.addTaskContainer input:focus {
+.addTaskContainer input.light {
+    background-color: var(--gray-200);
+    color: var(--black);
+}
+
+.addTaskContainer input.light:focus {
+    border: 1px solid var(--black);
+}
+
+.addTaskContainer input.dark:focus {
     border: 1px solid var(--purple-dark);
 }
+
 .addTaskContainer button {
     cursor: pointer;
     width: 5.625rem;
@@ -66,6 +86,7 @@
     display: flex;
     font-size: 0.875rem;
     font-weight: 600;
+    align-items: center;
 }
 
 .statusItem .countContainer {
@@ -74,12 +95,20 @@
     border-radius: 999px;
     color: var(--gray-200);
     font-size: 0.75rem;
+
 }
 
 .taskListContainer {
     width: 46rem;
-    border-top: 1px solid var(--gray-400);
     border-radius: 8px;
+    }
+    
+    .taskListContainer.dark {
+    border-top: 1px solid var(--gray-400);
+}
+
+.taskListContainer.light {
+    border-top: 1px solid var(--gray-200);
 }
 
 .notEmptyContainer {

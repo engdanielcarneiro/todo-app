@@ -1,0 +1,22 @@
+.header {
+    height: 12.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background-color 0.3s;
+}
+
+.dark {
+    background-color: var(--gray-700);
+}
+
+.light {
+    background-color: var(--gray-100);
+}
+
+.switchContainer {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
